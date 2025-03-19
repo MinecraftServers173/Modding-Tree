@@ -7,7 +7,7 @@ addLayer("e", {
 		points: new Decimal(0),
     }},
     color: "#ffffff",
-    requires: new Decimal(10), // Can be a function that takes requirement increases into account
+    requires: new Decimal(1), // Can be a function that takes requirement increases into account
     resource: "exports", // Name of prestige currency
     baseResource: "files", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
@@ -24,5 +24,23 @@ addLayer("e", {
     hotkeys: [
         {key: "e", description: "E: Reset for exports", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return true}
+    layerShown(){return true},
+    upgrades: {
+	11: {
+	title: "Double File",
+	description: "Double the files",
+	cost: new Decimal(2),
+	},
+	12: {
+	title: "SD",
+	description: "Gain files.",
+	cost: new Decimal(3),
+	effect() {
+                return player.points.add(1).pow(0.42)
+	},
+        effectDisplay() {return 'x' + format(upgradeEffect(this.layer, this.id))},
+        tooltip: "(points+1)<sup>0.42</sup>",
+	unlocked() { return hasUpgrade("e", 11) }
+	}
+    }
 })
