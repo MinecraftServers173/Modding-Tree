@@ -1,33 +1,28 @@
 let modInfo = {
-	name: "MetaTree",
-	id: "metree", // what is the point of this
-	author: "unicodes/wk",
-	pointsName: "points",
+	name: "The Exports Tree",
+	id: "minecrafterservers173_1",
+	author: "minecrafterservers173",
+	pointsName: "files",
 	modFiles: ["layers.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
 	initialStartPoints: new Decimal (0), // Used for hard resets and new players
-	offlineLimit: 3,  // In hours
+	offlineLimit: 1,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.6",
-	name: "It's not a line anymore",
+	num: "0.0",
+	name: "Literally nothing",
 }
 
-let changelog = `galaxy has a changelog you don't need this one!`
+let changelog = `<h1>Changelog:</h1><br>
+	<h3>v0.0</h3><br>
+		- Added things.<br>
+		- Added stuff.`
 
-let winText = `Wow! You won! But there will be more <i>soon...</i>`
-
-let additionCap = 25
-
-let og = new Decimal(0)
-
-let omegaSC = new Decimal(0)
-
-let mg = new Decimal(0)
+let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -42,42 +37,12 @@ function canGenPoints(){
 	return true
 }
 
-overginded = false
-
 // Calculate points/sec!
 function getPointGen() {
-	if(!canGenPoints()) return new Decimal(0)
-	let gain = new Decimal(1)
-	if (player['+'].points.gte(17)) gain = gain.add(player.points.pow(0.025))
-	if (player['+'].points.gte(5)) gain = gain.times(2)
-	if (hasUpgrade('p', 13)) gain = gain.add(1)
-	if (hasUpgrade('p', 11)) gain = gain.times(2)
-	if (hasUpgrade('p', 12)) gain = gain.times(2)
-	if (hasUpgrade('p', 14)) gain = gain.times(upgradeEffect('p', 14))
-	if (hasUpgrade('p', 16)) gain = gain.times(upgradeEffect('p', 16))
-	if (hasUpgrade('p', 17)) gain = gain.times(upgradeEffect('p', 17))
-	if (hasUpgrade('r', 11)) gain = gain.times(2)
-	if (hasUpgrade('r', 22)) gain = gain.times(25)
-	if (hasUpgrade('m', 11)) gain = gain.times(3)
-	if (hasUpgrade('m', 12)) gain = gain.pow(1.04)
-	if (hasUpgrade('m', 13)) gain = gain.times(upgradeEffect('m', 13))
-	if (hasUpgrade('m', 15)) gain = gain.times(15)
-	if (hasUpgrade('m', 16)) gain = gain.pow(1.02)
-	if (hasUpgrade('u', 11)) gain = gain.times(20)
-	if (player['+'].points.gte(12)) gain = gain.times(3)
-	if (hasUpgrade('i', 11)) gain = gain.times(50)
-	if (hasUpgrade('i', 12)) gain = gain.times(20)
-	if (getBuyableAmount('u',11).gte(1)) gain = gain.times(buyableEffect('u',11))
-	if (player['+'].points.gte(13)) gain = gain.times(1.5)
-	if (player['+'].points.gte(16)) gain = gain.times(player['+'].points.pow(1.1))
-	if (hasUpgrade('i', 12)) gain = gain.times(2)
-	if (hasUpgrade('i', 14)) gain = gain.times(5)
-	if (hasUpgrade('i', 16)) gain = gain.times(9)
-	if (hasUpgrade('i', 17)) gain = gain.times(69420)
-	if (player['+'].points.gte(21)) gain = gain.pow(0.98)
-	if (player['i'].omega.gte(1)) gain = gain.times(player['i'].omega.pow(0.05))
-	if (hasUpgrade('x', 11)) gain = gain.times(5)
-	if (hasUpgrade('x', 12)) gain = gain.times(10)
+	if(!canGenPoints())
+		return new Decimal(0)
+
+	let gain = new Decimal(0.1)
 	return gain
 }
 
@@ -87,53 +52,14 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-	function() {return 'You have ' + format(player['+'].points) + '/' + format(additionCap) + ' additions'},
-	"Endgame: 10,000 multiplier",
-	function() {
-		if (player.points.lte(100)) {
-			return "If 1 point is a centimeter, you'd have " + format(player.points) + "cm"
-		}
-		if (player.points.lte(100e3)) {
-			return "If 1 point is a centimeter, you'd have " + format(player.points.div(100)) + "m"
-		}
-		if (player.points.lte(29979245800)) {
-			return "If 1 point is a centimeter, you'd have " + format(player.points.div(100e3)) + "km"
-		}
-		if (player.points.lte(1798754748000)) {
-			return "If 1 point is a centimeter, you'd have " + format(player.points.div(29979245800)) + " light seconds"
-		}
-		if (player.points.lte(1798754748000*60)) {
-			return "If 1 point is a centimeter, you'd have " + format(player.points.div(1798754748000)) + " light minutes"
-		}
-		if (player.points.lte(1798754748000*60*24)) {
-			return "If 1 point is a centimeter, you'd have " + format(player.points.div(1798754748000*60)) + " light hours"
-		}
-		if (player.points.lte(1798754748000*60*24*365)) {
-			return "If 1 point is a centimeter, you'd have " + format(player.points.div(1798754748000*60*24)) + " light days"
-		}
-		if (player.points.lte(3.08567758e16)) {
-			return "If 1 point is a centimeter, you'd have " + format(player.points.div(1798754748000*60*24*365)) + " light years"
-		}
-		if (player.points.lte(3.08567758e19)) {
-			return "If 1 point is a centimeter, you'd have " + format(player.points.div(3.08567758e16)) + " parsecs"
-		}
-		if (player.points.lte(3.08567758e22)) {
-			return "If 1 point is a centimeter, you'd have " + format(player.points.div(3.08567758e19)) + " kiloparsecs"
-		}
-		if (player.points.lte(3.08567758e25)) {
-			return "If 1 point is a centimeter, you'd have " + format(player.points.div(3.08567758e22)) + " megaparsecs"
-		}
-		if (player.points.lte(3.08567758e28)) {
-			return "If 1 point is a centimeter, you'd have " + format(player.points.div(3.08567758e25)) + " gigaparsecs"
-		}
-		return "If you write 1 digit/s, you'd have to write for " + formatTime(player.points.log10().floor())
-	}
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.x.points.gte(10000)
+	return player.points.gte(new Decimal("e280000000"))
 }
+
+
 
 // Less important things beyond this point!
 
@@ -144,29 +70,7 @@ var backgroundStyle = {
 
 // You can change this if you have things that can be messed up by long tick lengths
 function maxTickLength() {
-	switch (options.maxTickLen) {
-		case "1h":
-			return 60*60
-			break;
-		case "3h":
-			return 60*60*3
-			break;
-		case "10h":
-			return 60*60*10
-			break;
-		case "10s":
-			return 10
-			break;
-		case "1m":
-			return 60
-			break;
-		case "5m":
-			return 60*5
-			break;
-		case "30m":
-			return 60*30
-			break;
-	}
+	return(3600) // Default is 1 hour which is just arbitrarily large
 }
 
 // Use this if you need to undo inflation from an older version. If the version is older than the version that fixed the issue,
