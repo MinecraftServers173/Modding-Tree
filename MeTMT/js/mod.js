@@ -13,7 +13,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "ersion Snapshot 25w12a",
+	num: "Snapshot 25w12a",
 	name: "Exports",
 }
 
@@ -43,7 +43,8 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(0.1)
-	
+	if(hasUpgrade("e",11)) gain = gain.times(2)
+	if(hasUpgrade("e",12)) gain = gain.times(upgradeEffect("e", 12))
 	return gain
 }
 
